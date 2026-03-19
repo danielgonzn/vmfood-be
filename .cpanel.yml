@@ -1,0 +1,9 @@
+---
+deployment:
+  tasks:
+    - export REPOPATH=$PWD
+    - /usr/bin/env php -v
+    - /usr/bin/env composer install --no-dev --optimize-autoloader --no-interaction
+    - /usr/bin/env php artisan migrate --force
+    - /usr/bin/env php artisan optimize:clear
+    - /usr/bin/env php artisan optimize
