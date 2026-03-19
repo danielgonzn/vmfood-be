@@ -4,10 +4,27 @@ namespace App\Http\Resources\V1;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 /** @mixin \App\Models\Product */
 class ProductResource extends JsonResource
 {
+    private function resolveImageUrl(): ?string
+    {
+        $image = $this->image_url;
+
+        if ($image === null || $image === '') {
+            return null;
+        }
+
+        if (Str::startsWith($image, ['http://', 'https://', '/'])) {
+            return $image;
+        }
+
+        return Storage::disk('public')->url($image);
+    }
+
     /**
      * Transform the resource into an array.
      *
@@ -30,7 +47,7 @@ class ProductResource extends JsonResource
             'condition' => $this->condition,
             'description' => $this->description ?: $this->short_description,
             'short_description' => $this->short_description,
-            'image' => $this->image_url,
+            'image' => $this->resolveImageUrl(),
             'gallery_images' => $this->gallery_images ?? [],
             'available' => $this->available,
             'capacity' => $this->capacity,

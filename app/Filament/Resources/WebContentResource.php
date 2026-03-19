@@ -108,6 +108,13 @@ class WebContentResource extends Resource
                                 Forms\Components\Toggle::make('is_active')
                                     ->label('Activo')
                                     ->default(true),
+                                Forms\Components\Toggle::make('is_published')
+                                    ->label('Publicado')
+                                    ->helperText('Si esta desactivado, el contenido quedara como borrador.')
+                                    ->default(true),
+                                Forms\Components\DateTimePicker::make('published_at')
+                                    ->label('Fecha de publicacion')
+                                    ->helperText('Opcional: programa cuando debe mostrarse este contenido.'),
                             ])->columns(2),
 
                         Forms\Components\Tabs\Tab::make('Textos')
@@ -183,6 +190,12 @@ class WebContentResource extends Resource
                 Tables\Columns\IconColumn::make('is_active')
                     ->label('Activo')
                     ->boolean(),
+                Tables\Columns\IconColumn::make('is_published')
+                    ->label('Publicado')
+                    ->boolean(),
+                Tables\Columns\TextColumn::make('published_at')
+                    ->label('Publicacion')
+                    ->since(),
                 Tables\Columns\TextColumn::make('sort_order')
                     ->label('Orden')
                     ->sortable(),
@@ -196,6 +209,8 @@ class WebContentResource extends Resource
                     ->options(static::sectionOptions()),
                 Tables\Filters\TernaryFilter::make('is_active')
                     ->label('Activo'),
+                Tables\Filters\TernaryFilter::make('is_published')
+                    ->label('Publicado'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make()

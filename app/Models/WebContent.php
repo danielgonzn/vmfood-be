@@ -21,6 +21,8 @@ class WebContent extends Model
         'meta',
         'sort_order',
         'is_active',
+        'is_published',
+        'published_at',
     ];
 
     protected function casts(): array
@@ -28,6 +30,8 @@ class WebContent extends Model
         return [
             'meta' => 'array',
             'is_active' => 'boolean',
+            'is_published' => 'boolean',
+            'published_at' => 'datetime',
         ];
     }
 

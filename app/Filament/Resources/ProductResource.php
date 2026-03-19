@@ -63,7 +63,10 @@ class ProductResource extends Resource
                     ->required(),
                 Forms\Components\FileUpload::make('image_url')
                     ->label('Imagen principal')
-                    ->image(),
+                    ->image()
+                    ->disk('public')
+                    ->directory('products')
+                    ->visibility('public'),
                 Forms\Components\TextInput::make('gallery_images')
                     ->label('Galería (URLs)')
                     ->helperText('Si agregas varias imágenes, sepáralas por coma.'),

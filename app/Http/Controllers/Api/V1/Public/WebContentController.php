@@ -21,6 +21,12 @@ class WebContentController extends Controller
         $items = Cache::remember($cacheKey, now()->addMinutes(10), function () use ($section, $key) {
             $query = WebContent::query()
                 ->where('is_active', true)
+                ->where('is_published', true)
+                ->where(function ($builder) {
+                    $builder
+                        ->whereNull('published_at')
+                        ->orWhere('published_at', '<=', now());
+                })
                 ->orderBy('section')
                 ->orderBy('sort_order')
                 ->orderBy('id');
