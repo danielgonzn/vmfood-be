@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\V1\Admin\UploadController as AdminUploadController;
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\Public\InquiryController;
 use App\Http\Controllers\Api\V1\Public\ProductController as PublicProductController;
+use App\Http\Controllers\Api\V1\Public\SiteConfigController;
 use App\Http\Controllers\Api\V1\Public\TaxonomyController;
 use App\Http\Controllers\Api\V1\Public\WebContentController;
 
@@ -27,6 +28,7 @@ Route::prefix('v1')->group(function (): void {
         Route::get('/products', [PublicProductController::class, 'index']);
         Route::get('/products/{slug}', [PublicProductController::class, 'show']);
         Route::get('/content', [WebContentController::class, 'index']);
+        Route::get('/site-config', [SiteConfigController::class, 'show']);
         Route::post('/inquiries', [InquiryController::class, 'store'])->middleware('throttle:20,1');
     });
 
