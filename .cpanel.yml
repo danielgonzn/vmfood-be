@@ -2,8 +2,13 @@
 deployment:
   tasks:
     - export REPOPATH=$PWD
+    - export DEPLOYPATH=$HOME/panel.vmfoodimport.com
     - /usr/bin/env php -v
     - /usr/bin/env composer install --no-dev --optimize-autoloader --no-interaction
     - /usr/bin/env php artisan migrate --force
+    - /usr/bin/env php artisan storage:link || true
     - /usr/bin/env php artisan optimize:clear
     - /usr/bin/env php artisan optimize
+    - /bin/mkdir -p $DEPLOYPATH
+    - /bin/cp -R public/. $DEPLOYPATH/
+    - /bin/sh -c 'echo "$(date +"%Y-%m-%d %H:%M:%S") | $(git rev-parse --short HEAD) | backend deploy ok" >> $HOME/deploy-backend.log'
