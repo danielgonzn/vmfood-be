@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Database\QueryException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Schema;
 
 class SiteSetting extends Model
 {
@@ -34,15 +36,31 @@ class SiteSetting extends Model
 
     public static function getValue(string $key, mixed $default = null): mixed
     {
-        return static::query()->where('key', $key)->value('value') ?? $default;
+        if (!Schema::hasTable((new static())->getTable())) {
+            return $default;
+        }
+
+        try {
+            return static::query()->where('key', $key)->value('value') ?? $default;
+        } catch (QueryException) {
+            return $default;
+        }
     }
 
     public static function setValue(string $key, mixed $value): void
     {
-        static::query()->updateOrCreate(
-            ['key' => $key],
-            ['value' => $value]
-        );
+        if (!Schema::hasTable((new static())->getTable())) {
+            return;
+        }
+
+        try {
+            static::query()->updateOrCreate(
+                ['key' => $key],
+                ['value' => $value]
+            );
+        } catch (QueryException) {
+            // Silently ignore writes when schema is not ready.
+        }
     }
 
     public static function defaultMaintenanceConfig(): array
