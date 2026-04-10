@@ -6,7 +6,7 @@ use App\Filament\Widgets\AdminStatsOverview;
 use App\Filament\Widgets\InquiryStatusChart;
 use App\Filament\Widgets\RecentLoginActivityTable;
 use App\Filament\Widgets\TopInquiredProductsTable;
-use Filament\Http\Middleware\Authenticate;
+use App\Http\Middleware\AuthenticateFilamentAdmin;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -30,9 +30,10 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
-            ->brandName('')
+            ->brandName('VM Food Import')
             ->brandLogo(asset('images/logo.png'))
-            ->brandLogoHeight('2rem')
+            ->brandLogoHeight('3rem')
+            ->favicon(asset('favicon.ico'))
             ->colors([
                 'primary' => Color::hex('#d70000'),
             ])
@@ -61,7 +62,7 @@ class AdminPanelProvider extends PanelProvider
                 DispatchServingFilamentEvent::class,
             ])
             ->authMiddleware([
-                Authenticate::class,
+                AuthenticateFilamentAdmin::class,
             ]);
     }
 }

@@ -94,7 +94,6 @@ class WebContentResource extends Resource
                                     ->options(static::keyOptions())
                                     ->required()
                                     ->searchable()
-                                    ->maxLength(120)
                                     ->unique(ignoreRecord: true),
                                 Forms\Components\TextInput::make('name')
                                     ->label('Nombre visible en el panel')

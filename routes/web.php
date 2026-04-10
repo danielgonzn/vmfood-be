@@ -5,7 +5,11 @@ use App\Http\Controllers\Admin\InquiryReportExportController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('filament.admin.auth.login');
+});
+
+Route::get('/login', function () {
+    return redirect()->route('filament.admin.auth.login');
 });
 
 Route::middleware(['auth', 'admin'])->prefix('admin/reports')->name('admin.reports.')->group(function (): void {
