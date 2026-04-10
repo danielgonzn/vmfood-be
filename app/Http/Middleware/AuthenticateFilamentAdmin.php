@@ -12,6 +12,6 @@ class AuthenticateFilamentAdmin extends Authenticate
             return null;
         }
 
-        return route('filament.admin.auth.login');
+        return '/admin/login';
     }
 }
