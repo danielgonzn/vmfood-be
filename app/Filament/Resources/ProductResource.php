@@ -60,8 +60,13 @@ class ProductResource extends Resource
                 Forms\Components\TextInput::make('origin')
                     ->label('Origen')
                     ->maxLength(255),
-                Forms\Components\TextInput::make('condition')
+                Forms\Components\Select::make('condition')
                     ->label('Estado del producto')
+                    ->options([
+                        'Nueva' => 'Nueva',
+                        'Usada' => 'Usada',
+                    ])
+                    ->default('Nueva')
                     ->required(),
                 Forms\Components\FileUpload::make('image_url')
                     ->label('Imagen principal')

@@ -58,6 +58,19 @@ class Product extends Model
         });
     }
 
+    public function setConditionAttribute(?string $value): void
+    {
+        $normalized = strtolower(trim((string) $value));
+
+        if (in_array($normalized, ['usada', 'used'], true)) {
+            $this->attributes['condition'] = 'Usada';
+
+            return;
+        }
+
+        $this->attributes['condition'] = 'Nueva';
+    }
+
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
