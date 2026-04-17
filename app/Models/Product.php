@@ -45,6 +45,19 @@ class Product extends Model
         ];
     }
 
+    protected static function booted(): void
+    {
+        static::saving(function (Product $product): void {
+            if ($product->category_id !== null && !Category::query()->whereKey($product->category_id)->exists()) {
+                $product->category_id = null;
+            }
+
+            if ($product->brand_id !== null && !Brand::query()->whereKey($product->brand_id)->exists()) {
+                $product->brand_id = null;
+            }
+        });
+    }
+
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
