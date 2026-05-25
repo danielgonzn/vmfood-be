@@ -61,6 +61,16 @@ class ProductController extends Controller
                 }
             })
             ->when($request->filled('available'), fn ($builder) => $builder->where('available', filter_var($request->input('available'), FILTER_VALIDATE_BOOL)))
+            ->orderByRaw(
+                "CASE
+                    WHEN LOWER(COALESCE(origin, '')) LIKE ?
+                        OR LOWER(COALESCE(origin, '')) IN (?, ?)
+                    THEN 0
+                    ELSE 1
+                END",
+                ['alem%', 'germany', 'deutschland']
+            )
+            ->orderByDesc('is_featured')
             ->orderBy('title');
 
         $products = $query->paginate(max(1, min($perPage, 60)));
